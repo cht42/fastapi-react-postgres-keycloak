@@ -1,5 +1,8 @@
-fastapi===0.64.0
+fastapi==0.64.0
 uvicorn==0.13.4
-python-keycloak===0.24.0
-python-multipart===0.0.5
-simber===0.2.1
+python-keycloak==0.24.0
+python-multipart==0.0.5
+simber==0.2.1
+SQLAlchemy==1.4.14
+pydantic==1.8.1
+psycopg2==2.8.6

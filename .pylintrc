@@ -146,7 +146,9 @@ disable=print-statement,
         comprehension-escape,
         import-error,
         missing-module-docstring,
-        missing-function-docstring
+        missing-function-docstring,
+        missing-class-docstring,
+        too-few-public-methods
 
 
 # Enable the message, report, category or checker with the given id(s). You can
@@ -342,7 +344,8 @@ good-names=i,
            k,
            ex,
            Run,
-           _
+           _,
+           db
 
 # Good variable names regexes, separated by a comma. If names match any regex,
 # they will always be accepted

@@ -3,7 +3,7 @@ FROM python:3.7-alpine
 
 WORKDIR /app
 
-RUN apk update && apk add postgresql-client
+RUN apk update && apk add postgresql-dev build-base
 
 COPY ./requirements.txt ./requirements.txt
 RUN pip install --upgrade pip && pip install -r requirements.txt

@@ -1,18 +1,19 @@
 """Module used for keycloak backend calls."""
+import os
+
 from fastapi import Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from jose.exceptions import JWTError
 from keycloak.exceptions import KeycloakAuthenticationError, KeycloakGetError
-
-from keycloak import KeycloakOpenID
+from keycloak.keycloak_openid import KeycloakOpenID
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 keycloak_openid = KeycloakOpenID(
-    server_url="http://keycloak:8080/auth/",
-    client_id="app",
-    realm_name="master",
-    client_secret_key="94673fb7-0086-4456-8000-83d53ccb927f",
+    server_url=os.environ.get("KEYCLOAK_SERVER_URL"),
+    realm_name=os.environ.get("KEYCLOAK_REALM_NAME"),
+    client_id=os.environ.get("KEYCLOAK_CLIENT_ID"),
+    client_secret_key=os.environ.get("KEYCLOAK_CLIENT_SECRET_KEY"),
 )
 
 KEYCLOAK_PUBLIC_KEY = (

@@ -4,13 +4,16 @@ from fastapi import Depends, FastAPI, Request
 from fastapi.responses import Response
 from simber import Logger
 
-from app.routers import auth, users
+from app.database import models
+from app.database.session import engine
+from app.router import auth, targets
 from app.service.keycloak import verify_token
 
 LOG_FORMAT = "{levelname} [{filename}:{lineno}]:"
 logger = Logger(__name__, log_path="/logs/api.log")
 logger.update_format(LOG_FORMAT)
 
+models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(docs_url="/api/docs", openapi_url="/api/openapi")
 
@@ -31,12 +34,15 @@ async def exception_handler(_: Request, exc: Exception):
 
 @app.get("/api")
 async def root():
-    """Return hello world."""
-    return {"message": "Hello world !"}
+    """Health check."""
+    return Response(status_code=200)
 
 
 app.include_router(
-    users.router, prefix="/api", tags=["users"], dependencies=[Depends(verify_token)]
+    targets.router,
+    prefix="/api",
+    tags=["targets"],
+    dependencies=[Depends(verify_token)],
 )
 app.include_router(auth.router, prefix="/api", tags=["auth"])
 

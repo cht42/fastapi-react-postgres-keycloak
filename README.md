@@ -20,4 +20,6 @@ To initialize Keycloak with a client and a user, you can use the script in the k
 bash keycloak/init.sh
 ```
 
+In the output of the script you will find the client secret. Copy it and put it the `.env`.
+
 You can then access the keycloak console and login with the admin credentials: http://localhost:8080

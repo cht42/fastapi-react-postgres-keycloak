@@ -4,8 +4,6 @@ from fastapi import Depends, FastAPI, Request
 from fastapi.responses import Response
 from simber import Logger
 
-from app.database import models
-from app.database.session import engine
 from app.router import auth, targets
 from app.service.keycloak import verify_token
 
@@ -13,7 +11,6 @@ LOG_FORMAT = "{levelname} [{filename}:{lineno}]:"
 logger = Logger(__name__, log_path="/logs/api.log")
 logger.update_format(LOG_FORMAT)
 
-models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(docs_url="/api/docs", openapi_url="/api/openapi")
 

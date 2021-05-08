@@ -36,8 +36,3 @@ repos:
         entry: bandit backend
         language: python
         pass_filenames: false
-      - name: pydocstyle
-        id: pydoctsyle
-        entry: pydocstyle backend
-        language: python
-        pass_filenames: false

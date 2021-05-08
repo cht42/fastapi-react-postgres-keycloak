@@ -22,12 +22,24 @@ services:
       - .env
     environment:
       PYTHONPATH: .
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_USER}
     volumes:
       - ./backend:/app
       - ./logs/backend:/logs
     depends_on:
       - postgres
       - keycloak
+
+  frontend:
+    container_name: frontend
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend/app:/app
+    environment:
+      NODE_ENV: development
+      CHOKIDAR_USEPOLLING: "true"
 
   postgres:
     container_name: postgres

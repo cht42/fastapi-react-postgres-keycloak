@@ -23,3 +23,22 @@ bash keycloak/init.sh
 In the output of the script you will find the client secret. Copy it and put it the `.env`.
 
 You can then access the keycloak console and login with the admin credentials: http://localhost:8080
+
+## Running database migrations using [Alembic](https://alembic.sqlalchemy.org).
+
+First, modify your models in the file `database/models.py`.
+Then run the following command to generate the migration:
+
+```bash
+docker-compose exec backend alembic revision --autogenerate -m "<Your message>"
+```
+
+> :warning: Check this [page](https://alembic.sqlalchemy.org/en/latest/autogenerate.html) to see what alembic detects for the Autogenerate
+
+Check the migration file in the `alembic/versions` folder. If you are happy with it, you can run the migration:
+
+```bash
+docker-compose exec backend alembic upgrade head
+```
+
+Your database is now up to date !

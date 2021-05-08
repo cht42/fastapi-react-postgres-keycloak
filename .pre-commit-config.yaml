@@ -9,9 +9,9 @@ repos:
       - id: trailing-whitespace
   - repo: local
     hooks:
-      - id: pylint
-        name: pylint
-        entry: pylint backend
+      - id: isort
+        name: isort
+        entry: isort --profile=black backend -p app
         language: python
         pass_filenames: false
       - id: black
@@ -19,9 +19,9 @@ repos:
         entry: black backend
         language: python
         pass_filenames: false
-      - id: isort
-        name: isort
-        entry: isort --profile black backend
+      - id: pylint
+        name: pylint
+        entry: pylint backend
         language: python
         pass_filenames: false
       - id: mypy

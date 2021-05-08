@@ -17,8 +17,10 @@ services:
     build:
       context: backend
       dockerfile: Dockerfile
+    environment:
+      PYTHONPATH: .
     volumes:
-      - ./backend/app:/app
+      - ./backend:/app
       - ./logs/backend:/logs
 
   frontend:

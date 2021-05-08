@@ -1,2 +1,5 @@
 fastapi===0.64.0
 uvicorn==0.13.4
+python-keycloak===0.24.0
+python-multipart===0.0.5
+simber===0.2.1

@@ -15,24 +15,29 @@ repos:
         language_version: python3.7
         args: ["--profile=black", "-p", "app"]
         language: python
+        types: [python]
         pass_filenames: false
       - id: black
         name: black
         entry: black backend
         language: python
+        types: [python]
         pass_filenames: false
       - id: pylint
         name: pylint
         entry: pylint backend
         language: python
+        types: [python]
         pass_filenames: false
       - id: mypy
         name: mypy
         entry: mypy backend
         language: python
+        types: [python]
         pass_filenames: false
       - name: bandit
         id: bandit
         entry: bandit backend
         language: python
+        types: [python]
         pass_filenames: false

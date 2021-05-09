@@ -1,6 +1,7 @@
 """Main module."""
 import uvicorn
 from fastapi import Depends, FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response
 from simber import Logger
 
@@ -14,9 +15,19 @@ logger.update_format(LOG_FORMAT)
 
 app = FastAPI(docs_url="/api/docs", openapi_url="/api/openapi")
 
+origins = ["http://localhost", "http://frontend:3000"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 @app.exception_handler(Exception)
-async def exception_handler(_: Request, exc: Exception):
+async def exception_handler(_: Request, exc: Exception) -> Response:
     """Handle default exceptions.
 
     Args:
@@ -30,7 +41,7 @@ async def exception_handler(_: Request, exc: Exception):
 
 
 @app.get("/api")
-async def root():
+async def root() -> Response:
     """Health check."""
     return Response(status_code=200)
 

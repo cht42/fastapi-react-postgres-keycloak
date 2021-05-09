@@ -1,5 +1,6 @@
 """Module used for keycloak backend calls."""
 import os
+import typing as tp
 
 from fastapi import Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
@@ -23,7 +24,7 @@ KEYCLOAK_PUBLIC_KEY = (
 )
 
 
-async def authenticate_user(username: str, password: str):
+async def authenticate_user(username: str, password: str) -> tp.Dict[str, str]:
     """Authenticate user with Keycloak backend.
 
     Args:
@@ -39,7 +40,7 @@ async def authenticate_user(username: str, password: str):
         raise HTTPException(status_code=401, detail="Invalid credentials") from error
 
 
-async def verify_token(token: str = Depends(oauth2_scheme)):
+async def verify_token(token: str = Depends(oauth2_scheme)) -> tp.Dict[str, str]:
     """Verify token with Keycloak public key.
 
     Args:

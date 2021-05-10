@@ -1,9 +1,9 @@
 """Main module."""
-import uvicorn
 from fastapi import Depends, FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response
 from simber import Logger
+import uvicorn
 
 from app.router import auth, targets
 from app.service.keycloak import verify_token
@@ -55,4 +55,4 @@ app.include_router(
 app.include_router(auth.router, prefix="/api", tags=["auth"])
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", reload=True, port=8888)
+    uvicorn.run("main:app", host="0.0.0.0", reload=True, port=8888)  # nosec

@@ -4,4 +4,4 @@ black===21.5b0
 mypy===0.812
 pydocstyle===6.0.0
 bandit===1.7.0
-isort===5.8.0
+zimports==0.3.0

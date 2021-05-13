@@ -1,4 +1,5 @@
 """Schemas used for input and output data validation."""
+from datetime import date
 import typing as tp
 
 from pydantic import BaseModel
@@ -23,7 +24,7 @@ class Picture(PictureBase):
 class TargetBase(BaseModel):
     first_name: str
     last_name: str
-    age: int
+    dob: date
 
 
 class TargetIn(TargetBase):

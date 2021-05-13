@@ -1,6 +1,7 @@
 """Model corresponding to DB state."""
 from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
+from sqlalchemy.sql.sqltypes import Date
 
 from .session import Base
 
@@ -11,7 +12,7 @@ class Target(Base):
     id = Column(Integer, primary_key=True, index=True)
     first_name = Column(String)
     last_name = Column(String)
-    age = Column(Integer)
+    dob = Column(Date)
 
     pictures = relationship("Picture", back_populates="target")
 

@@ -7,3 +7,4 @@ SQLAlchemy==1.4.14
 pydantic==1.8.1
 psycopg2==2.8.6
 alembic==1.6.2
+faker==8.1.2

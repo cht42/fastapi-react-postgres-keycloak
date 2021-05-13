@@ -1,12 +1,11 @@
 """Main module."""
-from fastapi import Depends, FastAPI, Request
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response
 from simber import Logger
 import uvicorn
 
 from app.router import auth, targets
-from app.service.keycloak import verify_token
 
 LOG_FORMAT = "{levelname} [{filename}:{lineno}]:"
 logger = Logger(__name__, log_path="/logs/api.log")
@@ -50,7 +49,7 @@ app.include_router(
     targets.router,
     prefix="/api",
     tags=["targets"],
-    dependencies=[Depends(verify_token)],
+    # dependencies=[Depends(verify_token)],
 )
 app.include_router(auth.router, prefix="/api", tags=["auth"])
 

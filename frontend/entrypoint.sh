@@ -1,4 +1,4 @@
 #!/bin/sh
 
 npm install
-npm run start
+npm start

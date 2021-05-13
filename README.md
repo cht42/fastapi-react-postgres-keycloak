@@ -33,7 +33,7 @@ Then run the following command to generate the migration:
 docker-compose exec backend alembic revision --autogenerate -m "<Your message>"
 ```
 
-> :warning: Check this [page](https://alembic.sqlalchemy.org/en/latest/autogenerate.html) to see what alembic detects for the Autogenerate
+> :warning: Check this [page](https://alembic.sqlalchemy.org/en/latest/autogenerate.html#what-does-autogenerate-detect-and-what-does-it-not-detect) to see what alembic detects for the Autogenerate
 
 Check the migration file in the `alembic/versions` folder. If you are happy with it, you can run the migration:
 
@@ -42,3 +42,19 @@ docker-compose exec backend alembic upgrade head
 ```
 
 Your database is now up to date !
+
+## Generate fake data
+
+To facilitate development, you can generate some fake data by running the following command:
+
+```bash
+docker-compose exec backend python fake_data.py
+```
+
+## Create frontend app
+
+In frontend folder, run:
+
+```bash
+npx create-react-app app --template typescript --use-npm
+```

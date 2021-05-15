@@ -5,7 +5,7 @@ from fastapi.responses import Response
 from simber import Logger
 import uvicorn
 
-from app.router import auth, targets
+from app.router import targets
 
 LOG_FORMAT = "{levelname} [{filename}:{lineno}]:"
 logger = Logger(__name__, log_path="/logs/api.log")
@@ -51,7 +51,7 @@ app.include_router(
     tags=["targets"],
     # dependencies=[Depends(verify_token)],
 )
-app.include_router(auth.router, prefix="/api", tags=["auth"])
+# app.include_router(auth.router, prefix="/api", tags=["auth"])
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", reload=True, port=8888)  # nosec

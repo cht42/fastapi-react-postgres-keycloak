@@ -28,7 +28,7 @@ services:
       - ./logs/backend:/logs
     depends_on:
       - postgres
-      - keycloak
+      # - keycloak
 
   frontend:
     container_name: frontend

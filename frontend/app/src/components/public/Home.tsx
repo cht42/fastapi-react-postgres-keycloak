@@ -1,33 +1,50 @@
 import React, { FC, useEffect, useState } from "react";
-import { Card, CardContent, CardHeader, Grid, Paper, Typography, } from "@material-ui/core";
+import {
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+  Grid,
+  Typography,
+} from "@material-ui/core";
 import SearchBar from "material-ui-search-bar";
+import { Link } from "react-router-dom";
 
-interface individual {
-  name: string;
+interface target {
+  first_name: string;
+  last_name: string;
   id: number;
 }
 
-const data: individual[] = [
-  { name: "Cyprien Huet", id: 1 },
-  { name: "Bob California", id: 2 },
-  { name: "Mick Truy", id: 3 },
-  { name: "FX Jone", id: 4 },
-  { name: "Popey Tole", id: 5 },
-  { name: "Tom Jersey", id: 6 },
-];
+const loadAllTargets = async () => {
+  return fetch("/api/targets", {
+    method: "GET",
+  });
+};
 
 export const Home: FC = () => {
-  const [indiv, setIndiv] = useState<individual[]>(data);
+  const [targets, setTargets] = useState<target[]>([]);
+  const [targetsDefault, setTargetsDefault] = useState<target[]>([]);
   const [searched, setSearched] = useState<string>("");
 
   useEffect(() => {
     document.title = "Home";
-  });
+    loadAllTargets()
+      .then((res) => res.json())
+      .then((data) => {
+        setTargetsDefault(data);
+        setTargets(data);
+      })
+      .catch(console.error);
+  }, []);
 
   const requestSearch = (searchedVal: string) => {
-    console.log(searchedVal);
-    const filteredIndiv = data.filter((indiv) => indiv.name.toLowerCase().includes(searchedVal.toLowerCase()));
-    setIndiv(filteredIndiv);
+    const filteredTargets = targetsDefault.filter((target) => {
+      const name =
+        target.first_name.toLowerCase() + target.last_name.toLowerCase();
+      return name.includes(searchedVal.toLowerCase());
+    });
+    setTargets(filteredTargets);
   };
 
   const cancelSearch = () => {
@@ -35,30 +52,38 @@ export const Home: FC = () => {
     requestSearch(searched);
   };
 
-
-  const listIndiv = indiv.map((indiv) => (
-    <Grid item>
-      <Card variant="outlined">
-        <CardHeader title={indiv.name} />
-        <CardContent>
-          <Typography component="h1" variant="h5">
-            <em>Information</em>
-          </Typography>
-        </CardContent>
+  const listIndiv = targets.map((target) => (
+    <Grid item key={target.id}>
+      <Card variant="outlined" style={{ maxWidth: 345 }}>
+        <Link to={"/targets/" + target.id} component={CardActionArea}>
+          <CardMedia style={{ height: 150 }} image="./avatar.jpeg" />
+          <CardContent>
+            <Typography variant="h5" component="h2">
+              {target.first_name + " " + target.last_name}
+            </Typography>
+          </CardContent>
+        </Link>
       </Card>
-    </Grid>));
+    </Grid>
+  ));
 
   return (
     <>
-      <Grid container spacing={5} >
-        <Grid container item justify="center" direction="column" alignItems="center">
+      <Grid container spacing={5}>
+        <Grid
+          container
+          item
+          justify="center"
+          direction="column"
+          alignItems="center"
+        >
           <Grid item>
             <h1>Hello</h1>
           </Grid>
           <Grid item>
             <p>You are on the homepage of your project. Present it here !</p>
           </Grid>
-        </Grid >
+        </Grid>
 
         <Grid container item justify="center">
           <SearchBar
@@ -69,7 +94,7 @@ export const Home: FC = () => {
           />
         </Grid>
 
-        <Grid container item justify="space-evenly" spacing={2} >
+        <Grid container item justify="space-evenly" spacing={2}>
           {listIndiv}
         </Grid>
       </Grid>

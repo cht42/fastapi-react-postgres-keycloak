@@ -18,7 +18,7 @@ repos:
         types: [python]
       - id: black
         name: black
-        entry: black backend
+        entry: black backend/app
         language: python
         types: [python]
       - id: pylint

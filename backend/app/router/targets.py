@@ -21,7 +21,7 @@ def create_target(
 @router.get(
     "/targets",
     response_model=tp.List[schemas.Target],
-    response_model_include=["id", "first_name", "last_name"],
+    response_model_include={"id", "first_name", "last_name"},
 )
 def read_targets(db: Session = Depends(get_db)) -> tp.List[schemas.Target]:
     """Get all targets."""

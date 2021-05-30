@@ -1,6 +1,8 @@
 export * from "./Home";
 export * from "./TargetInfo";
 export * from "./TargetSearch";
+export * from "./TargetCreate";
+export * from "./NavigationBar";
 
 export interface Picture {
   id: number;

@@ -9,6 +9,7 @@ import {
   Form,
   Col,
   Jumbotron,
+  Spinner,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
@@ -24,6 +25,7 @@ export const TargetSearch: FC = () => {
   const [targets, setTargets] = useState<Target[]>([]);
   const [targetsDefault, setTargetsDefault] = useState<Target[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     document.title = "Home";
@@ -32,6 +34,7 @@ export const TargetSearch: FC = () => {
       .then((data) => {
         setTargetsDefault(data);
         setTargets(data);
+        setLoading(false);
       })
       .catch(console.error);
   }, []);
@@ -40,10 +43,12 @@ export const TargetSearch: FC = () => {
     const input = event.target.value;
     setSearchQuery(input);
     setTargets(
-      targetsDefault.filter(
-        (elem) =>
-          elem.first_name.toLowerCase().includes(input.toLowerCase()) ||
-          elem.last_name.toLowerCase().includes(input.toLowerCase())
+      targetsDefault.filter((elem) =>
+        (
+          elem.first_name.toLowerCase() +
+          " " +
+          elem.last_name.toLowerCase()
+        ).includes(input.toLowerCase())
       )
     );
   };
@@ -82,9 +87,18 @@ export const TargetSearch: FC = () => {
           </Jumbotron>
         </Col>
       </Row>
+
       <Row>
-        <Col>
-          <CardColumns>{listTargets}</CardColumns>
+        <Col style={{ textAlign: "center" }}>
+          {loading ? (
+            <Spinner
+              variant="primary"
+              style={{ height: 200, width: 200 }}
+              animation="border"
+            />
+          ) : (
+            <CardColumns>{listTargets}</CardColumns>
+          )}
         </Col>
       </Row>
     </Container>

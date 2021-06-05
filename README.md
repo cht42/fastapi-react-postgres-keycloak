@@ -1,5 +1,11 @@
 # fastapi-react-postgres-keycloak
 
+To launch all the services just execute:
+
+```bash
+docker-compose up -d
+```
+
 ## Keycloak installation
 
 Create a `.env` file based on the `.env.example` file.

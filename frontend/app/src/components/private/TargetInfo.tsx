@@ -11,6 +11,7 @@ import {
 } from "react-bootstrap";
 
 import { Target } from ".";
+import { authorized_fetch } from "../../utils/Auth";
 
 export const TargetInfo: FC = () => {
   const { id }: { id: string } = useParams();
@@ -18,26 +19,29 @@ export const TargetInfo: FC = () => {
   const history = useHistory();
 
   useEffect(() => {
-    fetch("/api/targets/" + id, {
-      method: "GET",
-    })
-      .then((res) => res.json())
+    document.title = "Target Information";
+    authorized_fetch(
+      "/api/targets/" + id,
+      {},
+      {
+        method: "GET",
+      }
+    )
       .then((data) => setTarget(data))
       .catch(console.error);
   }, [id]);
 
-  const deleteTarget = (e: React.MouseEvent) => {
+  const deleteTarget = async (e: React.MouseEvent) => {
     if (window.confirm("Are you sure you want to delete this target ?")) {
-      fetch("/api/targets/" + id, { method: "DELETE" })
-        .then(() => history.push("/"))
-        .catch(console.error);
+      await authorized_fetch("/api/targets/" + id, {}, { method: "DELETE" });
+      history.push("/");
     }
   };
 
   const listPaths = target && (
     <ListGroup>
-      {target.pictures.map((picture) => (
-        <ListGroup.Item>{picture.path}</ListGroup.Item>
+      {target.pictures.map((picture, idx) => (
+        <ListGroup.Item key={idx}>{picture.path}</ListGroup.Item>
       ))}
     </ListGroup>
   );
@@ -45,8 +49,8 @@ export const TargetInfo: FC = () => {
     <ListGroup>
       {Object.entries(target)
         .filter(([key, value]) => key !== "pictures")
-        .map(([key, value]) => (
-          <ListGroup.Item>
+        .map(([key, value], idx) => (
+          <ListGroup.Item key={idx}>
             <b>{key}</b> {value}
           </ListGroup.Item>
         ))}

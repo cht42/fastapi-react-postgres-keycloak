@@ -1,11 +1,12 @@
 """Main module."""
-from fastapi import FastAPI, Request
+from fastapi import Depends, FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response
 from simber import Logger
 import uvicorn
 
-from app.router import targets
+from app.router import auth, targets
+from app.service.keycloak import verify_token
 
 LOG_FORMAT = "{levelname} [{filename}:{lineno}]:"
 logger = Logger(__name__, log_path="/logs/api.log")
@@ -47,11 +48,11 @@ async def root() -> Response:
 
 app.include_router(
     targets.router,
-    prefix="/api",
+    prefix="/api/targets",
     tags=["targets"],
-    # dependencies=[Depends(verify_token)],
+    dependencies=[Depends(verify_token)],
 )
-# app.include_router(auth.router, prefix="/api", tags=["auth"])
+app.include_router(auth.router, prefix="/api/auth", tags=["auth"])
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", reload=True, port=8888)  # nosec

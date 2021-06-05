@@ -14,12 +14,7 @@ import {
 import { Link } from "react-router-dom";
 
 import { getName, Target } from ".";
-
-const loadAllTargets = async () => {
-  return fetch("/api/targets", {
-    method: "GET",
-  });
-};
+import { authorized_fetch } from "../../utils/Auth";
 
 export const TargetSearch: FC = () => {
   const [targets, setTargets] = useState<Target[]>([]);
@@ -27,16 +22,22 @@ export const TargetSearch: FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
 
+  const loadAllTargets = async () => {
+    const data = await authorized_fetch(
+      "/api/targets",
+      {},
+      {
+        method: "GET",
+      }
+    );
+    setTargetsDefault(data);
+    setTargets(data);
+    setLoading(false);
+  };
+
   useEffect(() => {
-    document.title = "Home";
-    loadAllTargets()
-      .then((res) => res.json())
-      .then((data) => {
-        setTargetsDefault(data);
-        setTargets(data);
-        setLoading(false);
-      })
-      .catch(console.error);
+    document.title = "Search Targets";
+    loadAllTargets().catch(console.error);
   }, []);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

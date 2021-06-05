@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Form, Button, Row, Col, Container } from "react-bootstrap";
 import { useHistory } from "react-router";
+import { authorized_fetch } from "../../utils/Auth";
 
 export const TargetCreate = () => {
   const [firstName, setFirstName] = useState<string>("");
@@ -10,6 +11,7 @@ export const TargetCreate = () => {
   const history = useHistory();
 
   useEffect(() => {
+    document.title = "Create Target";
     if (firstName.length > 0 && lastName.length > 0) {
       setDisabled(false);
     } else {
@@ -17,19 +19,20 @@ export const TargetCreate = () => {
     }
   }, [firstName, lastName]);
 
-  const createTarget = (e: React.MouseEvent) => {
-    fetch("/api/targets", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({
-        first_name: firstName,
-        last_name: lastName,
-        dob: dob,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => history.push("/targets/" + data.id))
-      .catch(console.error);
+  const createTarget = async (e: React.MouseEvent) => {
+    const data = await authorized_fetch(
+      "/api/targets",
+      { "content-type": "application/json" },
+      {
+        method: "POST",
+        body: JSON.stringify({
+          first_name: firstName,
+          last_name: lastName,
+          dob: dob,
+        }),
+      }
+    );
+    history.push("/targets/" + data.id);
   };
 
   return (

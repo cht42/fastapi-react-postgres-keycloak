@@ -59,3 +59,17 @@ async def verify_token(token: str = Depends(oauth2_scheme)) -> tp.Dict[str, str]
         raise HTTPException(
             status_code=401, detail=str(error), headers={"WWW-Authenticate": "Bearer"}
         ) from error
+
+
+async def refresh_token(token: str) -> tp.Dict[str, str]:
+    try:
+        return keycloak_openid.refresh_token(token)
+    except (KeycloakGetError) as error:
+        raise HTTPException(status_code=401, detail=str(error)) from error
+
+
+async def logout(token: str) -> tp.Dict[str, str]:
+    try:
+        return keycloak_openid.logout(token)
+    except (KeycloakGetError) as error:
+        raise HTTPException(status_code=401, detail=str(error)) from error
